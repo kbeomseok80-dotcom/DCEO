@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StockInsight - 스마트 주식 현황판</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="dark-theme">
+    <div id="app">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <h2>📈 StockInsight</h2>
+            </div>
+            <nav>
+                <ul>
+                    <li class="active"><a href="#" onclick="showSection('dashboard')">대시보드</a></li>
+                    <li><a href="#" onclick="showSection('market')">시장 현황</a></li>
+                    <li><a href="#" onclick="showSection('watchlist')">관심 종목</a></li>
+                </ul>
+            </nav>
+            <div class="theme-toggle">
+                <button onclick="toggleTheme()">테마 변경</button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="content">
+            <header>
+                <div class="search-bar">
+                    <input type="text" id="stock-search" placeholder="종목명 또는 코드 입력...">
+                    <button onclick="searchStock()">검색</button>
+                </div>
+                <div class="user-info">
+                    <span id="market-status" class="status open">장 운영 중</span>
+                    <span id="current-time"></span>
+                </div>
+            </header>
+
+            <!-- Section: Dashboard -->
+            <section id="dashboard" class="section">
+                <div class="market-summary grid">
+                    <div class="card index-card" id="index-kospi">
+                        <h3>KOSPI</h3>
+                        <div class="value">6,198.43</div>
+                        <div class="change up">+27.15 (+0.44%)</div>
+                        <canvas id="chart-kospi" class="sparkline"></canvas>
+                    </div>
+                    <div class="card index-card" id="index-kosdaq">
+                        <h3>S&P 500</h3>
+                        <div class="value">7,041.28</div>
+                        <div class="change up">+18.25 (+0.26%)</div>
+                        <canvas id="chart-kosdaq" class="sparkline"></canvas>
+                    </div>
+                    <div class="card index-card" id="index-nasdaq">
+                        <h3>NASDAQ</h3>
+                        <div class="value">24,102.70</div>
+                        <div class="change up">+86.40 (+0.36%)</div>
+                        <canvas id="chart-nasdaq" class="sparkline"></canvas>
+                    </div>
+                    <div class="card index-card" id="index-exchange">
+                        <h3>DOW JONES</h3>
+                        <div class="value">48,578.72</div>
+                        <div class="change up">+116.10 (+0.24%)</div>
+                    </div>
+                </div>
+
+                <div class="main-grid grid">
+                    <div class="card watchlist-preview">
+                        <div class="card-header">
+                            <h3>관심 종목 실시간</h3>
+                            <button class="more" onclick="showSection('watchlist')">더보기</button>
+                        </div>
+                        <table id="watchlist-table">
+                            <thead>
+                                <tr>
+                                    <th>종목명</th>
+                                    <th>현재가</th>
+                                    <th>변동</th>
+                                    <th>변동률</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- JS에서 삽입 -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="card market-news">
+                        <h3>주요 금융 뉴스</h3>
+                        <ul id="news-list">
+                            <li>[속보] 반도체 관련주, 미 증시 훈풍에 동반 상승세</li>
+                            <li>금통위, 기준금리 동결 결정... "물가 추이 주시"</li>
+                            <li>테슬라, 1분기 차량 인도량 발표 앞두고 긴장감 고조</li>
+                            <li>환율, 달러 강세에 1,350원선 돌파 시도</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section: Stock Detail (Generic) -->
+            <section id="stock-detail" class="section hidden">
+                <div class="card detail-container">
+                    <div class="detail-header">
+                        <div>
+                            <h2 id="detail-name">삼성전자</h2>
+                            <span id="detail-code">005930</span>
+                        </div>
+                        <button id="btn-add-watchlist" class="primary-btn">+ 관심 종목 추가</button>
+                    </div>
+                    <div class="detail-stats">
+                        <div class="stat">
+                            <span class="label">현재가</span>
+                            <span class="value" id="detail-price">84,500</span>
+                        </div>
+                        <div class="stat">
+                            <span class="label">전일대비</span>
+                            <span class="value up" id="detail-change">+1,200 (+1.44%)</span>
+                        </div>
+                        <div class="stat">
+                            <span class="label">거래량</span>
+                            <span class="value" id="detail-volume">15,245,600</span>
+                        </div>
+                    </div>
+                    <div class="main-chart">
+                        <canvas id="stock-main-chart"></canvas>
+                    </div>
+                </div>
+                <button class="back-btn" onclick="showSection('dashboard')">← 대시보드로 돌아가기</button>
+            </section>
+        </main>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
